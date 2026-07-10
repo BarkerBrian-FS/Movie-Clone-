@@ -20,13 +20,14 @@ const API_OPTIONS = {
 function App() {
 
   const [searchTerm, setSearchTerm ] = useState('');
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null);
   const [movieList, setMovieList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [ debounceSearchTerm, setDebounceSearchTerm] = useState('')
+  const [ debounceSearchTerm, setDebounceSearchTerm] = useState('');
+  
 
   //debounce search term to prevent too many api requests
-  useDebounce(() => setDebounceSearchTerm(searchTerm), 500 , [searchTerm])
+  useDebounce(() => setDebounceSearchTerm(searchTerm), 500 , [searchTerm]);
 
   const fetchMovies = async (query = '') => {
     setIsLoading(true);
