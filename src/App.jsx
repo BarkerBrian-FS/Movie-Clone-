@@ -4,6 +4,7 @@ import Search from './components/Search.jsx'
 import Spinner from './components/Spinner.jsx';
 import MovieCard from './components/MovieCard.jsx';
 import { useDebounce } from 'react-use';
+import { updateSearchCount } from './appwrite.js';
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
 
@@ -27,7 +28,7 @@ function App() {
   
 
   //debounce search term to prevent too many api requests
-  useDebounce(() => setDebounceSearchTerm(searchTerm), 500 , [searchTerm]);
+  useDebounce(() => setDebounceSearchTerm(searchTerm), 900 , [searchTerm]);
 
   const fetchMovies = async (query = '') => {
     setIsLoading(true);
@@ -51,6 +52,10 @@ function App() {
         return;
       }
       setMovieList(data.results || []);
+
+      if(query && data.results.length > 0){
+        await updateSearchCount(query, data.results[0]);
+      }
 
       console.log(data);
     } catch (error) {
